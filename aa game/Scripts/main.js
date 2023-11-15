@@ -26,10 +26,12 @@ class Circle {
         this.Radius = 10;
         this.OfMainCircle = false;
         this.Angle = 45.5;
+        this.BaseRadius = 10;
+        this.Radius = this.BaseRadius;
     }
 }
 
-const circles = Array.from({ length: 10 }, (_, i) => new Circle(i)); //ezek a kis körök amiket belövünk
+const circles = Array.from({ length: 8 }, (_, i) => new Circle(i)); //ezek a kis körök amiket belövünk
 let CountOfClick = 0;
 let GameOver = false;
 let GameWin = false;
@@ -138,17 +140,44 @@ function resetGame() {
     CircleR = 3;
     speed = 0.025;
 }
+function resetGameBigger() {
+    // gyorsitas es kiskornagyitas
+    circles.forEach((circle, i) => {
+        circle.OfMainCircle = false;
+        circle.Angle = 45.5;
+        circle.X = Game.Width / 2;
+        circle.Y = 325 + i * 50;
+
+       
+        circle.Radius = circle.BaseRadius * 1.2;
+    });
+
+    CircleR = 3;
+    speed = 0.025;
+}
+
+let pressCount = 0;
 
 fasterButton.addEventListener("click", () => {
-    resetGame();
+    pressCount++;
+
+    if (pressCount % 2 === 1) {
+        // minden elso press
+        resetGame();
+    } else {
+        // minden masodik press
+        resetGameBigger();
+    }
+
     GameOver = false;
     GameWin = false;
     CountOfClick = 0;
     hidefasterButton();
     hidereplayButton();
     gameLoop();
-    Game.Level ++;
+    Game.Level++;
 });
+
 replayButton.addEventListener("click", () => {
     location.reload();
 });
