@@ -164,9 +164,11 @@ fasterButton.addEventListener("click", () => {
     if (pressCount % 2 === 1) {
         // minden elso press
         resetGame();
+        fasterButton.textContent = "BIGGER";
     } else {
         // minden masodik press
         resetGameBigger();
+        fasterButton.textContent = "FASTER";
     }
 
     GameOver = false;
